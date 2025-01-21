@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to Bhrighu Courses - ROI Calculator</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <title> Welcome to Bhrighu Courses - ROI Calculator</title>
   <style>
     body {
-      font-family: 'Poppins', sans-serif;
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f7f7f7;
+      background-color: #e3e3e3;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -18,55 +17,108 @@
       min-height: 100vh;
     }
 
-    .main-content {
-      padding: 20px;
-      text-align: center;
-      margin-top: 50px;
+    .logo {
+      margin-top: 20px;
+      margin-bottom: 20px;
     }
 
-    .roi-container {
-      display: none; /* Hidden by default */
+    .logo img {
+      max-width: 300px;
+      height: auto;
+    }
+
+    .calculator-container {
       background: #fff;
-      padding: 40px;
+      padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      max-width: 850px;
-      margin-top: 30px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 800px;
     }
 
-    h1 {
-      color: #007bff;
-      font-style: italic;
-      font-family: 'Pacifico', cursive;
-      font-size: 48px;
-      margin-bottom: 40px;
+    .calculator-container h2 {
+      margin-bottom: 20px;
+      color: #333;
+      text-align: center;
     }
 
-    a {
-      color: #007bff;
-      text-decoration: none;
-      font-size: 18px;
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
-      font-weight: 600;
+      font-size: 16px;
     }
 
-    /* Add more styling for form elements here */
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    .output {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .output p {
+      margin: 5px 0;
+      font-size: 18px;
+    }
+
+    .note {
+      font-size: 14px;
+      color: #777;
+    }
+
+    /* Hide the ROI container by default */
+    .roi-container {
+      display: none;
+    }
   </style>
 </head>
 <body>
 
+<!-- Bhrighu Logo Section -->
+<div class="logo">
+  <img src="Bhrighu.png" alt="Bhrighu Academy Logo">
+</div>
+
 <!-- Main Website Content -->
 <div class="main-content">
-  <h1>Welcome to Bhrighu Academy</h1>
-  <p>This is the main website content.</p>
-  <a id="showRoiLink" href="#">Go to ROI Calculator</a>
+  <h1 style="font-style: italic;text-align: center; color: #007bff;">Welcome to Bhrighu Academy</h1>
+  <p style="text-align: center;">This is the main website content.</p>
+  <a href="#" id="showRoiLink" style="color: #007bff; font-size: 18px; text-decoration: none;">Go to ROI Calculator</a>
 </div>
 
 <!-- ROI Calculator Section -->
-<div class="roi-container">
-  <h1>Welcome to Bhrighu Courses - ROI Calculator</h1>
-  <!-- Add your ROI calculator content here -->
-  <!-- Input fields and calculator code remains the same as in your original code -->
+<div class="roi-container calculator-container">
+  <h1 style="font-style: italic;text-align: center; color: #007bff;">Welcome to Bhrighu Courses - ROI Calculator</h1>
+
+  <!-- Input fields -->
   <div class="form-group">
     <label for="hoursPerWeek">Hours You Can Spend per Week</label>
     <input type="number" id="hoursPerWeek" placeholder="Enter number of hours" />
@@ -92,16 +144,30 @@
     <select id="jobRole">
       <option value="Data Scientist">Data Scientist</option>
       <option value="Data Analyst">Data Analyst</option>
-      <!-- other options -->
+      <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+      <option value="Business Intelligence Analyst">Business Intelligence Analyst</option>
+      <option value="Data Engineer">Data Engineer</option>
+      <option value="AI Engineer">AI Engineer</option>
+      <option value="Quantitative Analyst">Quantitative Analyst</option>
+      <option value="Data Science Consultant">Data Science Consultant</option>
+      <option value="Data Visualization Specialist">Data Visualization Specialist</option>
+      <option value="Operations Analyst">Operations Analyst</option>
+      <option value="Research Scientist">Research Scientist</option>
+      <option value="Big Data Analyst">Big Data Analyst</option>
+      <option value="Data Science Trainer">Data Science Trainer</option>
+      <option value="Data Science Project Manager">Data Science Project Manager</option>
     </select>
   </div>
 
   <button class="btn" onclick="calculateROI()">Calculate ROI</button>
 
-  <div class="output" id="output"></div>
+  <!-- Output Section -->
+  <div class="output" id="output">
+    <!-- Results will appear here -->
+  </div>
 
   <p class="note">
-    * Copyright 2025: All figures are based on estimates and assumptions.
+    * Copyright 2025 : All figures are based on estimates and assumptions. Individual results may vary depending on job market conditions.
   </p>
 </div>
 
@@ -145,7 +211,6 @@
     const expectedSalary = parseFloat(document.getElementById("expectedSalary").value);
     const jobRole = document.getElementById("jobRole").value.trim();
 
-    // Perform the calculations and show results
     if (!hoursPerWeek || !courseFee || !currentSalary || !expectedSalary || !jobRole) {
       alert("Please fill in all fields.");
       return;
@@ -163,7 +228,18 @@
         predictedSalaryIncrease = (expectedSalary - currentSalary) * 0.8;
         predictedWeeksToComplete = 12;
         break;
-      // Add more cases as needed
+      case "Machine Learning Engineer":
+        predictedSalaryIncrease = (expectedSalary - currentSalary) * 1.2;
+        predictedWeeksToComplete = 20;
+        break;
+      case "Business Intelligence Analyst":
+        predictedSalaryIncrease = (expectedSalary - currentSalary) * 0.9;
+        predictedWeeksToComplete = 10;
+        break;
+      default:
+        predictedSalaryIncrease = (expectedSalary - currentSalary);
+        predictedWeeksToComplete = 16;
+        break;
     }
 
     const roi = ((predictedSalaryIncrease / courseFee) * 100).toFixed(2);
