@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ROI Calculator</title>
+  <title>Data Science Essentials ROI Calculator</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -13,7 +13,7 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      background-color: #f9f9f9;
+      background-color: #f0f0f0;
     }
     .calculator-container {
       background: #fff;
@@ -21,7 +21,7 @@
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       width: 100%;
-      max-width: 400px;
+      max-width: 600px;
     }
     .calculator-container h2 {
       margin-bottom: 20px;
@@ -72,22 +72,30 @@
 <body>
 
 <div class="calculator-container">
-  <h2>ROI Calculator</h2>
+  <h2>Data Science Essentials ROI Calculator</h2>
   <div class="form-group">
-    <label for="courseFee">Course Fee (INR)</label>
-    <input type="number" id="courseFee" placeholder="Enter course fee" />
+    <label for="hoursPerWeek">Hours You Can Spend per Week</label>
+    <input type="number" id="hoursPerWeek" placeholder="Enter number of hours" />
+  </div>
+  <div class="form-group">
+    <label for="courseFee">Amount You Can Spend on the Course (INR)</label>
+    <input type="number" id="courseFee" placeholder="Enter amount in INR" />
   </div>
   <div class="form-group">
     <label for="currentSalary">Current Annual Salary (INR)</label>
-    <input type="number" id="currentSalary" placeholder="Enter current annual salary" />
+    <input type="number" id="currentSalary" placeholder="Enter your current salary in INR" />
   </div>
   <div class="form-group">
-    <label for="expectedSalary">Expected Annual Salary (INR)</label>
-    <input type="number" id="expectedSalary" placeholder="Enter expected annual salary" />
+    <label for="expectedSalary">Expected Annual Salary After Completion (INR)</label>
+    <input type="number" id="expectedSalary" placeholder="Enter expected salary in INR" />
   </div>
   <div class="form-group">
-    <label for="timeToAchieve">Time to Achieve Expected Salary (Years)</label>
-    <input type="number" id="timeToAchieve" placeholder="Enter time (in years)" />
+    <label for="weeksToComplete">Predicted Number of Weeks to Complete the Course</label>
+    <input type="number" id="weeksToComplete" placeholder="Enter number of weeks" disabled />
+  </div>
+  <div class="form-group">
+    <label for="roi">Predicted ROI (%)</label>
+    <input type="text" id="roi" placeholder="Predicted ROI" disabled />
   </div>
   <button class="btn" onclick="calculateROI()">Calculate ROI</button>
   <div class="output" id="output">
@@ -97,22 +105,30 @@
 
 <script>
   function calculateROI() {
+    const hoursPerWeek = parseFloat(document.getElementById("hoursPerWeek").value);
     const courseFee = parseFloat(document.getElementById("courseFee").value);
     const currentSalary = parseFloat(document.getElementById("currentSalary").value);
     const expectedSalary = parseFloat(document.getElementById("expectedSalary").value);
-    const timeToAchieve = parseFloat(document.getElementById("timeToAchieve").value);
 
-    if (!courseFee || !currentSalary || !expectedSalary || !timeToAchieve) {
+    if (!hoursPerWeek || !courseFee || !currentSalary || !expectedSalary) {
       alert("Please fill in all fields.");
       return;
     }
 
-    const roi = ((expectedSalary - currentSalary) / courseFee) * 100;
-    const breakevenMonths = (courseFee / (expectedSalary - currentSalary)) * 12;
+    // Predicted number of weeks to complete the course
+    const totalCourseHours = 100; // Example: The course requires 100 hours to complete
+    const weeksToComplete = totalCourseHours / hoursPerWeek;
 
+    // Predicted salary increase
+    const salaryIncrease = expectedSalary - currentSalary;
+    const roi = ((salaryIncrease / courseFee) * 100).toFixed(2);
+
+    // Display results
+    document.getElementById("weeksToComplete").value = weeksToComplete.toFixed(1);
+    document.getElementById("roi").value = roi + "%";
     document.getElementById("output").innerHTML = `
-      <p><strong>ROI:</strong> ${roi.toFixed(2)}%</p>
-      <p><strong>Breakeven Time:</strong> ${breakevenMonths.toFixed(1)} months</p>
+      <p><strong>Predicted Time to Complete the Course:</strong> ${weeksToComplete.toFixed(1)} weeks</p>
+      <p><strong>Predicted ROI:</strong> ${roi}%</p>
     `;
   }
 </script>
