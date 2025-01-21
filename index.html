@@ -21,7 +21,7 @@
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       width: 100%;
-      max-width: 600px;
+      max-width: 800px;
     }
     .calculator-container h2 {
       margin-bottom: 20px;
@@ -67,68 +67,104 @@
       margin: 5px 0;
       font-size: 18px;
     }
+    .note {
+      font-size: 14px;
+      color: #777;
+    }
   </style>
 </head>
 <body>
 
 <div class="calculator-container">
   <h2>Data Science Essentials ROI Calculator</h2>
+
+  <!-- Input fields -->
   <div class="form-group">
     <label for="hoursPerWeek">Hours You Can Spend per Week</label>
     <input type="number" id="hoursPerWeek" placeholder="Enter number of hours" />
   </div>
+  
   <div class="form-group">
-    <label for="courseFee">Amount You Can Spend on the Course (INR)</label>
-    <input type="number" id="courseFee" placeholder="Enter amount in INR" />
+    <label for="courseFee">Course Fee (INR)</label>
+    <input type="number" id="courseFee" placeholder="Enter amount in INR" value="50000" disabled />
   </div>
+
   <div class="form-group">
     <label for="currentSalary">Current Annual Salary (INR)</label>
     <input type="number" id="currentSalary" placeholder="Enter your current salary in INR" />
   </div>
+
   <div class="form-group">
     <label for="expectedSalary">Expected Annual Salary After Completion (INR)</label>
     <input type="number" id="expectedSalary" placeholder="Enter expected salary in INR" />
   </div>
+
+  <div class="form-group">
+    <label for="jobRole">Predicted Job Role after Course</label>
+    <input type="text" id="jobRole" placeholder="Enter expected job role (e.g., Data Scientist)" />
+  </div>
+
   <div class="form-group">
     <label for="weeksToComplete">Predicted Number of Weeks to Complete the Course</label>
     <input type="number" id="weeksToComplete" placeholder="Enter number of weeks" disabled />
   </div>
+
+  <div class="form-group">
+    <label for="salaryIncrease">Predicted Salary Increase (INR)</label>
+    <input type="number" id="salaryIncrease" placeholder="Predicted salary increase" disabled />
+  </div>
+
   <div class="form-group">
     <label for="roi">Predicted ROI (%)</label>
     <input type="text" id="roi" placeholder="Predicted ROI" disabled />
   </div>
+
   <button class="btn" onclick="calculateROI()">Calculate ROI</button>
+
+  <!-- Output Section -->
   <div class="output" id="output">
     <!-- Results will appear here -->
   </div>
+
+  <p class="note">
+    * All figures are based on estimates and assumptions. Individual results may vary depending on job market conditions.
+  </p>
 </div>
 
 <script>
   function calculateROI() {
+    // Collect input values
     const hoursPerWeek = parseFloat(document.getElementById("hoursPerWeek").value);
     const courseFee = parseFloat(document.getElementById("courseFee").value);
     const currentSalary = parseFloat(document.getElementById("currentSalary").value);
     const expectedSalary = parseFloat(document.getElementById("expectedSalary").value);
+    const jobRole = document.getElementById("jobRole").value.trim();
 
-    if (!hoursPerWeek || !courseFee || !currentSalary || !expectedSalary) {
+    if (!hoursPerWeek || !courseFee || !currentSalary || !expectedSalary || !jobRole) {
       alert("Please fill in all fields.");
       return;
     }
 
     // Predicted number of weeks to complete the course
-    const totalCourseHours = 100; // Example: The course requires 100 hours to complete
+    const totalCourseHours = 120; // Example: Course requires 120 hours to complete
     const weeksToComplete = totalCourseHours / hoursPerWeek;
 
     // Predicted salary increase
     const salaryIncrease = expectedSalary - currentSalary;
+
+    // Predicted ROI
     const roi = ((salaryIncrease / courseFee) * 100).toFixed(2);
 
-    // Display results
+    // Displaying results
     document.getElementById("weeksToComplete").value = weeksToComplete.toFixed(1);
+    document.getElementById("salaryIncrease").value = salaryIncrease.toFixed(2);
     document.getElementById("roi").value = roi + "%";
+
     document.getElementById("output").innerHTML = `
       <p><strong>Predicted Time to Complete the Course:</strong> ${weeksToComplete.toFixed(1)} weeks</p>
+      <p><strong>Predicted Salary Increase:</strong> ₹${salaryIncrease.toFixed(2)}</p>
       <p><strong>Predicted ROI:</strong> ${roi}%</p>
+      <p><strong>Predicted Job Role:</strong> ${jobRole}</p>
     `;
   }
 </script>
