@@ -9,12 +9,24 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
       background-color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start; /* Align at the top */
+      min-height: 100vh;
     }
+
+    .logo {
+      margin-top: 20px;
+      margin-bottom: 40px; /* Space below the logo */
+    }
+
+    .logo img {
+      max-width: 150px; /* Adjust logo size */
+      height: auto;
+    }
+
     .calculator-container {
       background: #fff;
       padding: 20px;
@@ -23,29 +35,35 @@
       width: 100%;
       max-width: 800px;
     }
+
     .calculator-container h2 {
       margin-bottom: 20px;
       color: #333;
       text-align: center;
     }
+
     .form-group {
       margin-bottom: 15px;
     }
+
     .form-group label {
       display: block;
       font-weight: bold;
       margin-bottom: 5px;
     }
+
     .form-group input {
       width: 100%;
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 5px;
     }
+
     .form-group input:focus {
       border-color: #007bff;
       outline: none;
     }
+
     .btn {
       width: 100%;
       padding: 10px;
@@ -56,28 +74,24 @@
       cursor: pointer;
       font-size: 16px;
     }
+
     .btn:hover {
       background-color: #0056b3;
     }
+
     .output {
       margin-top: 20px;
       text-align: center;
     }
+
     .output p {
       margin: 5px 0;
       font-size: 18px;
     }
+
     .note {
       font-size: 14px;
       color: #777;
-    }
-    .logo {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .logo img {
-      max-width: 150px; /* Adjust logo size */
-      height: auto;
     }
   </style>
 </head>
@@ -88,6 +102,7 @@
   <img src="bhrighu-logo.png" alt="Bhrighu Academy Logo">
 </div>
 
+<!-- ROI Calculator -->
 <div class="calculator-container">
   <h2>Data Science Essentials ROI Calculator</h2>
 
@@ -176,12 +191,4 @@
 
     document.getElementById("output").innerHTML = `
       <p><strong>Predicted Time to Complete the Course:</strong> ${weeksToComplete.toFixed(1)} weeks</p>
-      <p><strong>Predicted Salary Increase:</strong> ₹${salaryIncrease.toFixed(2)}</p>
-      <p><strong>Predicted ROI:</strong> ${roi}%</p>
-      <p><strong>Predicted Job Role:</strong> ${jobRole}</p>
-    `;
-  }
-</script>
-
-</body>
-</html>
+      <p><strong>Predicted Salary Increase:</strong> ₹${salaryIncrease.toFixed(2)}</
