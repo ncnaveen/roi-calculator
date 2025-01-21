@@ -52,14 +52,14 @@
       margin-bottom: 5px;
     }
 
-    .form-group input {
+    .form-group input, .form-group select {
       width: 100%;
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 5px;
     }
 
-    .form-group input:focus {
+    .form-group input:focus, .form-group select:focus {
       border-color: #007bff;
       outline: none;
     }
@@ -129,7 +129,22 @@
 
   <div class="form-group">
     <label for="jobRole">Predicted Job Role after Course</label>
-    <input type="text" id="jobRole" placeholder="Enter expected job role (e.g., Data Scientist)" />
+    <select id="jobRole">
+      <option value="Data Scientist">Data Scientist</option>
+      <option value="Data Analyst">Data Analyst</option>
+      <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+      <option value="Business Intelligence Analyst">Business Intelligence Analyst</option>
+      <option value="Data Engineer">Data Engineer</option>
+      <option value="AI Engineer">AI Engineer</option>
+      <option value="Quantitative Analyst">Quantitative Analyst</option>
+      <option value="Data Science Consultant">Data Science Consultant</option>
+      <option value="Data Visualization Specialist">Data Visualization Specialist</option>
+      <option value="Operations Analyst">Operations Analyst</option>
+      <option value="Research Scientist">Research Scientist</option>
+      <option value="Big Data Analyst">Big Data Analyst</option>
+      <option value="Data Science Trainer">Data Science Trainer</option>
+      <option value="Data Science Project Manager">Data Science Project Manager</option>
+    </select>
   </div>
 
   <div class="form-group">
@@ -174,21 +189,62 @@
       return;
     }
 
-    // Predicted number of weeks to complete the course
-    const totalCourseHours = 120; // Example: Course requires 120 hours to complete
-    const weeksToComplete = totalCourseHours / hoursPerWeek;
+    // Default values for salary increase and course duration based on role
+    let predictedSalaryIncrease = 0;
+    let predictedWeeksToComplete = 0;
 
-    // Predicted salary increase
-    const salaryIncrease = expectedSalary - currentSalary;
+    // Role-based prediction for salary increase and weeks to complete
+    switch(jobRole) {
+      case "Data Scientist":
+        predictedSalaryIncrease = (expectedSalary - currentSalary);
+        predictedWeeksToComplete = 16; // Assume 16 weeks for Data Science
+        break;
+      case "Data Analyst":
+        predictedSalaryIncrease = (expectedSalary - currentSalary) * 0.8;
+        predictedWeeksToComplete = 12;
+        break;
+      case "Machine Learning Engineer":
+        predictedSalaryIncrease = (expectedSalary - currentSalary) * 1.2;
+        predictedWeeksToComplete = 20;
+        break;
+      case "Business Intelligence Analyst":
+        predictedSalaryIncrease = (expectedSalary - currentSalary) * 0.9;
+        predictedWeeksToComplete = 10;
+        break;
+      case "Data Engineer":
+        predictedSalaryIncrease = (expectedSalary - currentSalary) * 1.1;
+        predictedWeeksToComplete = 18;
+        break;
+      case "AI Engineer":
+        predictedSalaryIncrease = (expectedSalary - currentSalary) * 1.3;
+        predictedWeeksToComplete = 22;
+        break;
+      case "Quantitative Analyst":
+        predictedSalaryIncrease = (expectedSalary - currentSalary) * 1.4;
+        predictedWeeksToComplete = 24;
+        break;
+      default:
+        predictedSalaryIncrease = (expectedSalary - currentSalary);
+        predictedWeeksToComplete = 16;
+        break;
+    }
 
     // Predicted ROI
-    const roi = ((salaryIncrease / courseFee) * 100).toFixed(2);
+    const roi = ((predictedSalaryIncrease / courseFee) * 100).toFixed(2);
 
     // Displaying results
-    document.getElementById("weeksToComplete").value = weeksToComplete.toFixed(1);
-    document.getElementById("salaryIncrease").value = salaryIncrease.toFixed(2);
+    document.getElementById("weeksToComplete").value = predictedWeeksToComplete;
+    document.getElementById("salaryIncrease").value = predictedSalaryIncrease.toFixed(2);
     document.getElementById("roi").value = roi + "%";
 
     document.getElementById("output").innerHTML = `
-      <p><strong>Predicted Time to Complete the Course:</strong> ${weeksToComplete.toFixed(1)} weeks</p>
-      <p><strong>Predicted Salary Increase:</strong> ₹${salaryIncrease.toFixed(2)}</
+      <p><strong>Predicted Time to Complete the Course:</strong> ${predictedWeeksToComplete} weeks</p>
+      <p><strong>Predicted Salary Increase:</strong> ₹${predictedSalaryIncrease.toFixed(2)}</p>
+      <p><strong>Predicted ROI:</strong> ${roi}%</p>
+      <p><strong>Predicted Job Role:</strong> ${jobRole}</p>
+    `;
+  }
+</script>
+
+</body>
+</html>
