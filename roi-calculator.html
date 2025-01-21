@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROI Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f9f9f9;
+    }
+    .calculator-container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    .calculator-container h2 {
+      margin-bottom: 20px;
+      color: #333;
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .form-group input:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+    .btn {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .btn:hover {
+      background-color: #0056b3;
+    }
+    .output {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .output p {
+      margin: 5px 0;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="calculator-container">
+  <h2>ROI Calculator</h2>
+  <div class="form-group">
+    <label for="courseFee">Course Fee (INR)</label>
+    <input type="number" id="courseFee" placeholder="Enter course fee" />
+  </div>
+  <div class="form-group">
+    <label for="currentSalary">Current Annual Salary (INR)</label>
+    <input type="number" id="currentSalary" placeholder="Enter current annual salary" />
+  </div>
+  <div class="form-group">
+    <label for="expectedSalary">Expected Annual Salary (INR)</label>
+    <input type="number" id="expectedSalary" placeholder="Enter expected annual salary" />
+  </div>
+  <div class="form-group">
+    <label for="timeToAchieve">Time to Achieve Expected Salary (Years)</label>
+    <input type="number" id="timeToAchieve" placeholder="Enter time (in years)" />
+  </div>
+  <button class="btn" onclick="calculateROI()">Calculate ROI</button>
+  <div class="output" id="output">
+    <!-- Results will appear here -->
+  </div>
+</div>
+
+<script>
+  function calculateROI() {
+    const courseFee = parseFloat(document.getElementById("courseFee").value);
+    const currentSalary = parseFloat(document.getElementById("currentSalary").value);
+    const expectedSalary = parseFloat(document.getElementById("expectedSalary").value);
+    const timeToAchieve = parseFloat(document.getElementById("timeToAchieve").value);
+
+    if (!courseFee || !currentSalary || !expectedSalary || !timeToAchieve) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    const roi = ((expectedSalary - currentSalary) / courseFee) * 100;
+    const breakevenMonths = (courseFee / (expectedSalary - currentSalary)) * 12;
+
+    document.getElementById("output").innerHTML = `
+      <p><strong>ROI:</strong> ${roi.toFixed(2)}%</p>
+      <p><strong>Breakeven Time:</strong> ${breakevenMonths.toFixed(1)} months</p>
+    `;
+  }
+</script>
+
+</body>
+</html>
