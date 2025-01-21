@@ -86,7 +86,7 @@
   
   <div class="form-group">
     <label for="courseFee">Course Fee (INR)</label>
-    <input type="number" id="courseFee" placeholder="Enter amount in INR" value="50000" disabled />
+    <input type="number" id="courseFee" placeholder="Enter course fee in INR" />
   </div>
 
   <div class="form-group">
@@ -140,6 +140,7 @@
     const expectedSalary = parseFloat(document.getElementById("expectedSalary").value);
     const jobRole = document.getElementById("jobRole").value.trim();
 
+    // Check if all required fields are filled
     if (!hoursPerWeek || !courseFee || !currentSalary || !expectedSalary || !jobRole) {
       alert("Please fill in all fields.");
       return;
