@@ -147,20 +147,7 @@
     </select>
   </div>
 
- // <div class="form-group">
- //   <label for="weeksToComplete">Predicted Number of Weeks to Complete the Course</label>
-//    <input type="number" id="weeksToComplete" placeholder="Enter number of weeks" disabled />
-//  </div>
-
-//  <div class="form-group">
-//    <label for="salaryIncrease">Predicted Salary Increase (INR)</label>
-//    <input type="number" id="salaryIncrease" placeholder="Predicted salary increase" disabled />
-//  </div>
-
-//  <div class="form-group">
-//    <label for="roi">Predicted ROI (%)</label>
-//    <input type="text" id="roi" placeholder="Predicted ROI" disabled />
-//  </div>
+ 
 
   <button class="btn" onclick="calculateROI()">Calculate ROI</button>
 
@@ -232,10 +219,7 @@
     // Predicted ROI
     const roi = ((predictedSalaryIncrease / courseFee) * 100).toFixed(2);
 
-    // Displaying results
-   // document.getElementById("weeksToComplete").value = predictedWeeksToComplete;
-  //  document.getElementById("salaryIncrease").value = predictedSalaryIncrease.toFixed(2);
- //   document.getElementById("roi").value = roi + "%";
+   
 
     document.getElementById("output").innerHTML = `
       <p><strong>Predicted Time to Complete the Course:</strong> ${predictedWeeksToComplete} weeks</p>
