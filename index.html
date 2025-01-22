@@ -7,7 +7,296 @@
   <style>
     body {
       font-family: Arial, sans-serif;
+      margin: 0;<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Learning, Your Returns | See the Value of Skilling</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
       margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+    }
+
+    .logo {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .logo img {
+      max-width: 300px;
+      height: auto;
+    }
+
+    .calculator-container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .calculator-container h2 {
+      margin-bottom: 20px;
+      color: #333;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .form-group input, .form-group select, .form-group .slider {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+
+    .slider {
+      width: 100%;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+
+    .output {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .output p {
+      margin: 5px 0;
+      font-size: 18px;
+    }
+
+    .note {
+      font-size: 14px;
+      color: #777;
+    }
+
+    .money-bag, .growth-graph {
+      font-size: 50px;
+      color: #28a745;
+    }
+
+    .comparison-output {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .roi-container {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Bhrighu Logo Section -->
+<div class="logo">
+  <img src="Bhrighu.png" alt="Bhrighu Academy Logo">
+</div>
+
+<!-- Main Website Content -->
+<div class="main-content">
+  <h1 style="font-style: italic; text-align: center; color: #007bff;">Welcome to Bhrighu Academy</h1>
+  <p style="text-align: center;">A tool to calculate Return on Investment (ROI) based on your learning time and career growth.</p>
+  <div style="text-align: center;">
+    <a href="#" id="showRoiLink" style="color: #007bff; font-size: 18px; text-decoration: none;">Go to ROI Calculator</a>
+  </div>
+</div>
+
+<!-- ROI Calculator Section -->
+<div class="roi-container calculator-container">
+  <h1 style="font-style: italic; text-align: center; color: #007bff;">ROI Calculator</h1>
+
+  <!-- Input Fields -->
+  <div class="form-group">
+    <label for="currentSalary">Current Salary (CTC) (Select Salary)</label>
+    <select id="currentSalary">
+      <option value="50000">₹50,000</option>
+      <option value="100000">₹100,000</option>
+      <option value="150000">₹150,000</option>
+      <option value="200000">₹200,000</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="jobRole">Choose Your Job Role</label>
+    <select id="jobRole" onchange="updateSalaryPrediction()">
+      <option value="Data Scientist">Data Scientist</option>
+      <option value="Data Analyst">Data Analyst</option>
+      <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+      <option value="Business Intelligence Analyst">Business Intelligence Analyst</option>
+      <option value="Data Engineer">Data Engineer</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="predictedSalary">Predicted Salary for Role (INR)</label>
+    <input type="text" id="predictedSalary" disabled />
+  </div>
+
+  <div class="form-group">
+    <label for="programFee">Program Fee (INR)</label>
+    <input type="number" id="programFee" value="20000" disabled />
+  </div>
+
+  <div class="form-group">
+    <label for="learningTime">Learning Time per Week</label>
+    <input type="range" id="learningTime" class="slider" min="6" max="24" step="6" value="12" onchange="updateLearningTime()">
+    <div id="learningTimeLabel">12 hours per week</div>
+  </div>
+
+  <button class="btn" onclick="calculateROI()">Calculate ROI</button>
+
+  <!-- Output Section -->
+  <div class="output" id="output">
+    <div class="money-bag">💰</div>
+    <p><strong>Investing additional time can boost your ROI!</strong></p>
+    <div class="comparison-output">
+      <div>
+        <p><strong>Previous ROI:</strong> 10%</p>
+        <p><strong>New ROI:</strong> 15%</p>
+      </div>
+      <div class="growth-graph">📈</div>
+    </div>
+    <div class="output-result">
+      <!-- Results will appear here -->
+    </div>
+  </div>
+
+  <p class="note">
+    * All figures are based on estimates and assumptions. Individual results may vary depending on job market conditions.
+  </p>
+
+  <div class="save-share">
+    <button class="btn">Save as PDF</button>
+    <button class="btn">Share</button>
+  </div>
+</div>
+
+<script>
+  // Handle click event on the link to show ROI calculator
+  document.getElementById("showRoiLink").addEventListener("click", function(event) {
+    event.preventDefault(); // Prevent the default action of the link
+    
+    // Hide the main content and show the ROI calculator content
+    document.querySelector(".main-content").style.display = "none";
+    document.querySelector(".roi-container").style.display = "block";
+    
+    // Change the URL without reloading the page
+    history.pushState(null, "", "/bhrighuroi");
+  });
+
+  // Handle browser back button
+  window.onpopstate = function(event) {
+    if (window.location.pathname === "/bhrighuroi") {
+      document.querySelector(".main-content").style.display = "none";
+      document.querySelector(".roi-container").style.display = "block";
+    } else {
+      document.querySelector(".main-content").style.display = "block";
+      document.querySelector(".roi-container").style.display = "none";
+    }
+  };
+
+  // On page load, check the current URL and show/hide content accordingly
+  if (window.location.pathname === "/bhrighuroi") {
+    document.querySelector(".main-content").style.display = "none";
+    document.querySelector(".roi-container").style.display = "block";
+  }
+
+  // Update predicted salary based on selected job role
+  function updateSalaryPrediction() {
+    const jobRole = document.getElementById("jobRole").value;
+    let predictedSalary = 0;
+    switch (jobRole) {
+      case "Data Scientist":
+        predictedSalary = 100000;
+        break;
+      case "Data Analyst":
+        predictedSalary = 80000;
+        break;
+      case "Machine Learning Engineer":
+        predictedSalary = 120000;
+        break;
+      case "Business Intelligence Analyst":
+        predictedSalary = 95000;
+        break;
+      case "Data Engineer":
+        predictedSalary = 110000;
+        break;
+      default:
+        predictedSalary = 100000;
+    }
+    document.getElementById("predictedSalary").value = `₹${predictedSalary}`;
+  }
+
+  // Update learning time label
+  function updateLearningTime() {
+    const learningTime = document.getElementById("learningTime").value;
+    document.getElementById("learningTimeLabel").innerText = `${learningTime} hours per week`;
+  }
+
+  // ROI calculation function
+  function calculateROI() {
+    const currentSalary = parseFloat(document.getElementById("currentSalary").value);
+    const predictedSalary = parseFloat(document.getElementById("predictedSalary").value.replace('₹', ''));
+    const programFee = parseFloat(document.getElementById("programFee").value);
+    const learningTime = parseInt(document.getElementById("learningTime").value);
+
+    // ROI Formula (Salary increase / Program Fee) * 100
+    const salaryIncrease = predictedSalary - currentSalary;
+    const roi = ((salaryIncrease / programFee) * 100).toFixed(2);
+
+    // Display the results
+    document.querySelector(".output-result").innerHTML = `
+      <p><strong>Predicted Salary Increase:</strong> ₹${salaryIncrease}</p>
+      <p><strong>Predicted ROI:</strong> ${roi}%</p>
+    `;
+
+    // Show prompt for more ROI with increased learning time
+    if (learningTime === 24) {
+      alert("Investing 24 hours per week will significantly boost your ROI!");
+    }
+  }
+</script>
+
+</body>
+</html>
+
       padding: 0;
       background-color: #e3e3e3;
       display: flex;
