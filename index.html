@@ -331,12 +331,12 @@
    // Convert the chart to image
     const chartCanvas = document.getElementById('roiChart');
     const chartDataURL = chartCanvas.toDataURL('image/png');
-    doc.addImage(chartDataURL, 'PNG', 10, 150, 180, 90); // Add the image to the PDF (adjust size if needed)
+    doc.addImage(chartDataURL, 'PNG', 10, 170, 180, 90); // Add the image to the PDF (adjust size if needed)
  // 
     // Add copyright and assumptions statement
     doc.text('© Bhrighu Academy 2025', 10, 130);
-    doc.text('* All figures are based on estimates and assumptions.',10,130);
-    doc.text('Individual results may vary depending on job market conditions.', 10, 130);
+    doc.text('* All figures are based on estimates and assumptions.',10,140);
+    doc.text('Individual results may vary depending on job market conditions.', 10, 150);
     
     // Save the PDF
     doc.save('ROI_Calculator_with_Graph.pdf');
