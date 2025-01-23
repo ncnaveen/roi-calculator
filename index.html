@@ -260,11 +260,11 @@
     roi = (roi * roiMultiplier).toFixed(2);
 
     // Display the results
-    document.querySelector(".output-result").innerHTML = ` 
+    document.querySelector(".output-result").innerHTML = `
       <p><strong>Predicted Salary Increase:</strong> ₹${salaryIncrease}</p>
       <p><strong>Predicted ROI:</strong> ${roi}%</p>
     `;
-    
+
     // Update the graph
     updateGraph(roi);
   }
@@ -272,13 +272,21 @@
   // Function to update the graph with new ROI
   function updateGraph(roi) {
     const ctx = document.getElementById('roiChart').getContext('2d');
-    new Chart(ctx, {
+    const previousROI = 10;
+    const newROI = parseFloat(roi);
+
+    // Destroy previous chart instance to avoid overlap
+    if (window.chartInstance) {
+      window.chartInstance.destroy();
+    }
+
+    window.chartInstance = new Chart(ctx, {
       type: 'bar',
       data: {
         labels: ['Previous ROI', 'New ROI'],
         datasets: [{
           label: 'ROI',
-          data: [10, parseFloat(roi)],
+          data: [previousROI, newROI],
           backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)'],
           borderColor: ['rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)'],
           borderWidth: 1
@@ -309,15 +317,16 @@
     const roiText = document.querySelector(".output-result").innerText;
 
     // Add content to PDF
-    doc.text(`Current Salary: ₹${currentSalary}`, 10, 10);
-    doc.text(`Predicted Salary: ${predictedSalary}`, 10, 20);
-    doc.text(`Program Fee: ₹${programFee}`, 10, 30);
-    doc.text(`Learning Time: ${learningTime} hours per week`, 10, 40);
-    doc.text(roiText, 10, 50);
+    const yOffset = 40;  // Starting y position for text
+    doc.text(`Current Salary: ₹${currentSalary}`, 10, yOffset);
+    doc.text(`Predicted Salary: ${predictedSalary}`, 10, yOffset + 10);
+    doc.text(`Program Fee: ₹${programFee}`, 10, yOffset + 20);
+    doc.text(`Learning Time: ${learningTime} hours per week`, 10, yOffset + 30);
+    doc.text(roiText, 10, yOffset + 40);
 
     // Add Bhrighu Academy Header to PDF
     doc.setFont("times", "bold");
-    doc.text('Bhrighu Academy of E-Learning, Bengaluru', 105, 10, { align: 'center' });
+    doc.text('Bhrighu Academy of E-Learning, Bengaluru', 105, 20, { align: 'center' });
 
     // Add copyright and assumptions statement
     doc.text('© Bhrighu Academy 2025', 10, 130);
