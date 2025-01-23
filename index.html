@@ -123,9 +123,11 @@
 </head>
 <body>
 
-<!-- Bhrighu Logo Section -->
+<!-- Bhrighu Academy Header -->
 <div class="logo">
-  <img src="Bhrighu.png" alt="Bhrighu Academy Logo">
+  <h2 style="font-family: 'Times New Roman', Times, serif; text-align: center; font-size: 24px; font-weight: bold;">
+    Bhrighu Academy of E-Learning, Bengaluru
+  </h2>
 </div>
 
 <!-- ROI Calculator Section -->
@@ -270,32 +272,26 @@
   // Function to update the graph with new ROI
   function updateGraph(roi) {
     const ctx = document.getElementById('roiChart').getContext('2d');
-    const chart = Chart.getChart("roiChart"); // Get the existing chart instance
-    if (chart) {
-      chart.data.datasets[0].data = [10, parseFloat(roi)]; // Update data dynamically
-      chart.update(); // Re-render the chart
-    } else {
-      new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: ['Previous ROI', 'New ROI'],
-          datasets: [{
-            label: 'ROI',
-            data: [10, parseFloat(roi)],
-            backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)'],
-            borderColor: ['rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)'],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true
-            }
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Previous ROI', 'New ROI'],
+        datasets: [{
+          label: 'ROI',
+          data: [10, parseFloat(roi)],
+          backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)'],
+          borderColor: ['rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
           }
         }
-      });
-    }
+      }
+    });
   }
 
   // Save as PDF functionality including the graph
@@ -303,7 +299,7 @@
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    // Set font to Times New Roman
+    // Set font to Times New Roman (simulated with available font)
     doc.setFont("times", "normal");
 
     const currentSalary = document.getElementById("currentSalary").value;
@@ -319,8 +315,9 @@
     doc.text(`Learning Time: ${learningTime} hours per week`, 10, 40);
     doc.text(roiText, 10, 50);
 
-    // Add Bhrighu logo to PDF
-    doc.addImage('Bhrighu.png', 'PNG', 105, 10, 40, 40, 'center');
+    // Add Bhrighu Academy Header to PDF
+    doc.setFont("times", "bold");
+    doc.text('Bhrighu Academy of E-Learning, Bengaluru', 105, 10, { align: 'center' });
 
     // Add copyright and assumptions statement
     doc.text('© Bhrighu Academy 2025', 10, 130);
