@@ -244,12 +244,15 @@
 
     // ROI Formula (Salary increase / Program Fee) * 100
     const salaryIncrease = predictedSalary - currentSalary;
-    const roi = ((salaryIncrease / programFee) * 100).toFixed(2);
+
+    // Applying a multiplier to ROI based on the learning time (e.g., +2% for each hour above 12 hours)
+    let roiMultiplier = 1 + (learningTime - 12) * 0.02; // ROI increases by 2% for each hour above 12
+    const roi = ((salaryIncrease / programFee) * 100) * roiMultiplier;
 
     // Display the results
     document.querySelector(".output-result").innerHTML = `
       <p><strong>Predicted Salary Increase:</strong> ₹${salaryIncrease}</p>
-      <p><strong>Predicted ROI:</strong> ${roi}%</p>
+      <p><strong>Predicted ROI:</strong> ${roi.toFixed(2)}%</p>
     `;
 
     // Create or update the graph (using Chart.js)
