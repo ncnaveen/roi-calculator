@@ -328,14 +328,18 @@ function saveAsPDF() {
   // Remove the ₹ symbol from predictedSalaryText and convert it to a number
   const predictedSalary = parseFloat(predictedSalaryText.replace('₹', '').replace(',', ''));
 
+  // Calculate the salary increase
+  const salaryIncrease = predictedSalary - parseFloat(currentSalary);
+
   // Add content to PDF
   const yOffset = 40;  // Starting y position for text
   doc.text(`Current Salary: Rs. ${currentSalary}`, 10, yOffset);
   doc.text(`Predicted Salary: Rs. ${predictedSalary}`, 10, yOffset + 10);
   doc.text(`Program Fee: Rs. ${programFee}`, 10, yOffset + 20);
   doc.text(`Learning Time: ${learningTime} hours per week`, 10, yOffset + 30);
-  doc.text(roiText, 10, yOffset + 40);
-  
+  doc.text(`Predicted Salary Increase: Rs. ${salaryIncrease}`, 10, yOffset + 40); // Ensure it's formatted properly
+  doc.text(roiText, 10, yOffset + 50);
+
   // Add Bhrighu Academy Header to PDF
   doc.setFont("times", "bold");
   doc.text('Bhrighu Academy of E-Learning, Bengaluru', 105, 20, { align: 'center' });
@@ -353,6 +357,7 @@ function saveAsPDF() {
   // Save the PDF
   doc.save('ROI_Calculator_with_Graph.pdf');
 }
+
 
 
   // Share functionality (WhatsApp, LinkedIn, Instagram)
