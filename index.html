@@ -198,44 +198,41 @@
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
-  // Update predicted salary based on selected job role
+  // Function to update predicted salary based on selected job role
   function updateSalaryPrediction() {
     const jobRole = document.getElementById("jobRole").value;
     let predictedSalary = 0;
     switch (jobRole) {
       case "Data Scientist":
-        predictedSalary = 180000;
+        predictedSalary = 120000;
         break;
       case "Data Analyst":
-        predictedSalary = 130000;
+        predictedSalary = 100000;
         break;
       case "Machine Learning Engineer":
-        predictedSalary = 200000;
+        predictedSalary = 140000;
         break;
       case "Business Intelligence Analyst":
-        predictedSalary = 150000;
+        predictedSalary = 110000;
         break;
       case "Data Engineer":
-        predictedSalary = 160000;
+        predictedSalary = 130000;
         break;
       default:
-        predictedSalary = 130000;
+        predictedSalary = 100000;
     }
     document.getElementById("predictedSalary").value = `₹${predictedSalary}`;
   }
 
-  // Update learning time label
+  // Function to update learning time label
   function updateLearningTime() {
     const learningTime = document.getElementById("learningTime").value;
     document.getElementById("learningTimeLabel").innerText = `${learningTime} hours per week`;
   }
 
-  // Initialize the chart variable
-  let roiChart;
-
-  // ROI calculation function
+  // Function to calculate ROI
   function calculateROI() {
     const currentSalary = parseFloat(document.getElementById("currentSalary").value);
     const predictedSalary = parseFloat(document.getElementById("predictedSalary").value.replace('₹', ''));
@@ -244,40 +241,38 @@
 
     // ROI Formula (Salary increase / Program Fee) * 100
     const salaryIncrease = predictedSalary - currentSalary;
+    let roi = ((salaryIncrease / programFee) * 100).toFixed(2);
 
-    // Applying a multiplier to ROI based on the learning time (e.g., +2% for each hour above 12 hours)
-    let roiMultiplier = 1 + (learningTime - 12) * 0.02; // ROI increases by 2% for each hour above 12
-    const roi = ((salaryIncrease / programFee) * 100) * roiMultiplier;
+    // Apply a multiplier to ROI based on learning time
+    const roiMultiplier = 1 + (learningTime - 12) * 0.02; // 2% increase per additional hour above 12 hours/week
+    roi = (roi * roiMultiplier).toFixed(2);
 
     // Display the results
     document.querySelector(".output-result").innerHTML = `
       <p><strong>Predicted Salary Increase:</strong> ₹${salaryIncrease}</p>
-      <p><strong>Predicted ROI:</strong> ${roi.toFixed(2)}%</p>
+      <p><strong>Predicted ROI:</strong> ${roi}%</p>
     `;
-
-    // Create or update the graph (using Chart.js)
-    const ctx = document.getElementById('roiChart').getContext('2d');
     
-    // Destroy previous chart instance if exists to prevent duplication
-    if (roiChart) {
-      roiChart.destroy();
-    }
+    // Update the graph
+    updateGraph(roi);
+  }
 
-    // Create new chart with updated data
-    roiChart = new Chart(ctx, {
+  // Function to update the graph with new ROI
+  function updateGraph(roi) {
+    const ctx = document.getElementById('roiChart').getContext('2d');
+    new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['Salary Increase', 'Program Fee', 'ROI'],
+        labels: ['Previous ROI', 'New ROI'],
         datasets: [{
-          label: 'ROI Calculation',
-          data: [salaryIncrease, programFee, roi],
-          backgroundColor: ['#28a745', '#007bff', '#ffcc00'],
-          borderColor: ['#28a745', '#007bff', '#ffcc00'],
+          label: 'ROI',
+          data: [10, parseFloat(roi)],
+          backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)'],
+          borderColor: ['rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)'],
           borderWidth: 1
         }]
       },
       options: {
-        responsive: true,
         scales: {
           y: {
             beginAtZero: true
@@ -285,16 +280,8 @@
         }
       }
     });
-
-    // Show prompt for more ROI with increased learning time
-    if (learningTime === 24) {
-      alert("Investing 24 hours per week will significantly boost your ROI!");
-    }
   }
-  
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-  <script>
   // Save as PDF functionality
   function saveAsPDF() {
     const { jsPDF } = window.jspdf;
@@ -303,8 +290,7 @@
     // Get the content of the ROI calculator section
     const roiContainer = document.querySelector('.roi-container');
     
-    // You can use HTML2Canvas to capture an HTML element as an image if needed
-    // Here we capture the full content and directly add to PDF
+    // Convert HTML to PDF
     doc.html(roiContainer, {
       callback: function (doc) {
         // Save the generated PDF with the name "ROI_Calculator.pdf"
@@ -315,28 +301,13 @@
       y: 10
     });
   }
-</script>
- 
-  // Placeholder function for sharing (implement as needed)
-  function shareResults() {
-    alert("Sharing functionality not implemented yet.");
-  }
-
-  // Attach event listeners to inputs to trigger recalculation automatically
-  document.getElementById("currentSalary").addEventListener("change", calculateROI);
-  document.getElementById("jobRole").addEventListener("change", function() {
-    updateSalaryPrediction();
-    calculateROI();
-  });
-  document.getElementById("learningTime").addEventListener("input", function() {
-    updateLearningTime();
-    calculateROI();
-  });
-
-  // Initial population of predicted salary on page load
+  
+  // Initial population of predicted salary and graph
   updateSalaryPrediction();
   calculateROI();
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </body>
 </html>
