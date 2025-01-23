@@ -199,6 +199,7 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
   // Function to update predicted salary based on selected job role
   function updateSalaryPrediction() {
@@ -287,27 +288,27 @@
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    // Get the content of the ROI calculator section
-    const roiContainer = document.querySelector('.roi-container');
-    
-    // Convert HTML to PDF
-    doc.html(roiContainer, {
-      callback: function (doc) {
-        // Save the generated PDF with the name "ROI_Calculator.pdf"
-        doc.save("ROI_Calculator.pdf");
-      },
-      margin: [10, 10, 10, 10],
-      x: 10,
-      y: 10
-    });
+    const currentSalary = document.getElementById("currentSalary").value;
+    const predictedSalary = document.getElementById("predictedSalary").value;
+    const programFee = document.getElementById("programFee").value;
+    const learningTime = document.getElementById("learningTime").value;
+    const roiText = document.querySelector(".output-result").innerText;
+
+    // Add content to PDF
+    doc.text(`Current Salary: ₹${currentSalary}`, 10, 10);
+    doc.text(`Predicted Salary: ${predictedSalary}`, 10, 20);
+    doc.text(`Program Fee: ₹${programFee}`, 10, 30);
+    doc.text(`Learning Time: ${learningTime} hours per week`, 10, 40);
+    doc.text(roiText, 10, 50);
+
+    // Save the PDF
+    doc.save('ROI_Calculator.pdf');
   }
-  
+
   // Initial population of predicted salary and graph
   updateSalaryPrediction();
   calculateROI();
 </script>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </body>
 </html>
