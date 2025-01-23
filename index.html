@@ -133,7 +133,7 @@
   <!-- Input Fields -->
   <div class="form-group">
     <label for="currentSalary">Current Salary (CTC) (Select Salary)</label>
-    <select id="currentSalary">
+    <select id="currentSalary" onchange="calculateROI()">
       <option value="50000">₹50,000</option>
       <option value="100000">₹100,000</option>
       <option value="150000">₹150,000</option>
@@ -143,7 +143,7 @@
 
   <div class="form-group">
     <label for="jobRole">Choose Your Job Role</label>
-    <select id="jobRole" onchange="updateSalaryPrediction()">
+    <select id="jobRole" onchange="updateSalaryPrediction(); calculateROI();">
       <option value="Data Scientist">Data Scientist</option>
       <option value="Data Analyst">Data Analyst</option>
       <option value="Machine Learning Engineer">Machine Learning Engineer</option>
@@ -164,7 +164,7 @@
 
   <div class="form-group">
     <label for="learningTime">Learning Time per Week</label>
-    <input type="range" id="learningTime" class="slider" min="6" max="24" step="6" value="12" onchange="updateLearningTime()">
+    <input type="range" id="learningTime" class="slider" min="6" max="24" step="6" value="12" onchange="updateLearningTime(); calculateROI();">
     <div id="learningTimeLabel">12 hours per week</div>
   </div>
 
@@ -281,12 +281,12 @@
 
   // Placeholder function for saving as PDF (implement as needed)
   function saveAsPDF() {
-    alert("Save as PDF functionality is not implemented yet.");
+    alert("Save as PDF functionality not implemented yet.");
   }
 
   // Placeholder function for sharing (implement as needed)
   function shareResults() {
-    alert("Share functionality is not implemented yet.");
+    alert("Sharing functionality not implemented yet.");
   }
 </script>
 
