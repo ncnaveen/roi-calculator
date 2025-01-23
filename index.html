@@ -247,9 +247,17 @@
   // Function to calculate ROI
   function calculateROI() {
     const currentSalary = parseFloat(document.getElementById("currentSalary").value);
-    const predictedSalary = parseFloat(document.getElementById("predictedSalary").value);
+    const predictedSalaryText = document.getElementById("predictedSalary").value;
     const programFee = parseFloat(document.getElementById("programFee").value);
     const learningTime = parseInt(document.getElementById("learningTime").value);
+
+    // Convert predictedSalary text to number (remove the ₹ symbol and convert to float)
+    const predictedSalary = parseFloat(predictedSalaryText.replace('₹', '').replace(',', ''));
+
+    if (isNaN(currentSalary) || isNaN(predictedSalary) || isNaN(programFee) || isNaN(learningTime)) {
+      alert("Please ensure all fields are filled correctly.");
+      return; // Exit the function if any value is NaN
+    }
 
     // ROI Formula (Salary increase / Program Fee) * 100
     const salaryIncrease = predictedSalary - currentSalary;
@@ -261,7 +269,7 @@
 
     // Display the results
     document.querySelector(".output-result").innerHTML = `
-      <p><strong>Predicted Salary Increase:</strong> Rs. ${salaryIncrease}</p>
+      <p><strong>Predicted Salary Increase:</strong> ₹${salaryIncrease}</p>
       <p><strong>Predicted ROI:</strong> ${roi}%</p>
     `;
 
@@ -272,7 +280,7 @@
   // Function to update the graph with new ROI
   function updateGraph(roi) {
     const ctx = document.getElementById('roiChart').getContext('2d');
-    const previousROI = 10;
+    const previousROI = 10; // You can set this as a fixed value or dynamic depending on your requirement
     const newROI = parseFloat(roi);
 
     // Destroy previous chart instance to avoid overlap
