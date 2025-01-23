@@ -318,9 +318,9 @@
 
     // Add content to PDF
     const yOffset = 40;  // Starting y position for text
-    doc.text(`Current Salary:  \u20B9${currentSalary}`, 10, yOffset);
+    doc.text(`Current Salary:  ${currentSalary}`, 10, yOffset);
     doc.text(`Predicted Salary: ${predictedSalary}`, 10, yOffset + 10);
-    doc.text(`Program Fee: ₹${programFee}`, 10, yOffset + 20);
+    doc.text(`Program Fee: ${programFee}`, 10, yOffset + 20);
     doc.text(`Learning Time: ${learningTime} hours per week`, 10, yOffset + 30);
     doc.text(roiText, 10, yOffset + 40);
 
