@@ -133,7 +133,7 @@
   <!-- Input Fields -->
   <div class="form-group">
     <label for="currentSalary">Current Salary (CTC) (Select Salary)</label>
-    <select id="currentSalary">
+    <select id="currentSalary" onchange="updateValues()">
       <option value="50000">₹50,000</option>
       <option value="100000">₹100,000</option>
       <option value="150000">₹150,000</option>
@@ -143,7 +143,7 @@
 
   <div class="form-group">
     <label for="jobRole">Choose Your Job Role</label>
-    <select id="jobRole">
+    <select id="jobRole" onchange="updateValues()">
       <option value="Data Scientist">Data Scientist</option>
       <option value="Data Analyst">Data Analyst</option>
       <option value="Machine Learning Engineer">Machine Learning Engineer</option>
@@ -164,7 +164,7 @@
 
   <div class="form-group">
     <label for="learningTime">Learning Time per Week</label>
-    <input type="range" id="learningTime" class="slider" min="6" max="24" step="6" value="12">
+    <input type="range" id="learningTime" class="slider" min="6" max="24" step="6" value="12" onchange="updateLearningTime()">
     <div id="learningTimeLabel">12 hours per week</div>
   </div>
 
@@ -231,6 +231,13 @@
   function updateLearningTime() {
     const learningTime = document.getElementById("learningTime").value;
     document.getElementById("learningTimeLabel").innerText = `${learningTime} hours per week`;
+    calculateROI();
+  }
+
+  // Function to update values when fields change
+  function updateValues() {
+    updateSalaryPrediction();
+    calculateROI();
   }
 
   // Function to calculate ROI
@@ -249,7 +256,7 @@
     roi = (roi * roiMultiplier).toFixed(2);
 
     // Display the results
-    document.querySelector(".output-result").innerHTML = `
+    document.querySelector(".output-result").innerHTML = ` 
       <p><strong>Predicted Salary Increase:</strong> ₹${salaryIncrease}</p>
       <p><strong>Predicted ROI:</strong> ${roi}%</p>
     `;
@@ -283,7 +290,7 @@
     });
   }
 
-  // Save as PDF functionality including the graph
+  // Save as PDF functionality including the graph and Bhrighu Logo
   function saveAsPDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
@@ -294,20 +301,53 @@
     const learningTime = document.getElementById("learningTime").value;
     const roiText = document.querySelector(".output-result").innerText;
 
+    // Add Bhrighu logo to PDF
+    doc.addImage('Bhrighu.png', 'PNG', 10, 10, 40, 40); // Adjust image size and position as needed
+
     // Add content to PDF
-    doc.text(`Current Salary: ₹${currentSalary}`, 10, 10);
-    doc.text(`Predicted Salary: ${predictedSalary}`, 10, 20);
-    doc.text(`Program Fee: ₹${programFee}`, 10, 30);
-    doc.text(`Learning Time: ${learningTime} hours per week`, 10, 40);
-    doc.text(roiText, 10, 50);
+    doc.text(`Current Salary: ₹${currentSalary}`, 10, 60);
+    doc.text(`Predicted Salary: ${predictedSalary}`, 10, 70);
+    doc.text(`Program Fee: ₹${programFee}`, 10, 80);
+    doc.text(`Learning Time: ${learningTime} hours per week`, 10, 90);
+    doc.text(roiText, 10, 100);
+
+    // Add copyright and assumptions
+    doc.text(`© Bhrighu Academy 2025`, 10, 130);
+    doc.text(`* All figures are based on estimates and assumptions. Individual results may vary depending on job market conditions.`, 10, 140);
 
     // Convert the chart to image
     const chartCanvas = document.getElementById('roiChart');
     const chartDataURL = chartCanvas.toDataURL('image/png');
-    doc.addImage(chartDataURL, 'PNG', 10, 60, 180, 90); // Add the image to the PDF (adjust size if needed)
+    doc.addImage(chartDataURL, 'PNG', 10, 150, 180, 90); // Add the image to the PDF (adjust size if needed)
 
     // Save the PDF
     doc.save('ROI_Calculator_with_Graph.pdf');
+  }
+
+  // Share functionality (WhatsApp, LinkedIn, Instagram)
+  function shareResults() {
+    const currentSalary = document.getElementById("currentSalary").value;
+    const predictedSalary = document.getElementById("predictedSalary").value;
+    const programFee = document.getElementById("programFee").value;
+    const learningTime = document.getElementById("learningTime").value;
+    const roiText = document.querySelector(".output-result").innerText;
+
+    const shareText = `
+      Current Salary: ₹${currentSalary}
+      Predicted Salary: ₹${predictedSalary}
+      Program Fee: ₹${programFee}
+      Learning Time: ${learningTime} hours per week
+      ${roiText}
+    `;
+
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+    const linkedinUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(window.location.href)}&title=Your Learning, Your Returns&summary=${encodeURIComponent(shareText)}`;
+    const instagramUrl = `https://www.instagram.com/?url=${encodeURIComponent(window.location.href)}`;
+
+    // Open sharing options in new windows
+    window.open(whatsappUrl, "_blank");
+    window.open(linkedinUrl, "_blank");
+    window.open(instagramUrl, "_blank");
   }
 
   // Initial population of predicted salary and graph
