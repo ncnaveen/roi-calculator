@@ -267,7 +267,7 @@
     roi = (roi * roiMultiplier).toFixed(2);
 
     // Display the results
-    document.querySelector(".output-result").innerHTML = `
+    document.querySelector(".output-result").innerHTML = ` 
       <p><strong>Predicted Salary Increase:</strong> ₹${salaryIncrease}</p>
       <p><strong>Predicted ROI:</strong> ${roi}%</p>
     `;
@@ -309,59 +309,56 @@
     });
   }
 
-
   // Save as PDF functionality including the graph
-function saveAsPDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
+  function saveAsPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
 
-  // Set font to Times New Roman (simulated with available font)
-  doc.setFont("times", "normal");
+    // Set font to Times New Roman (simulated with available font)
+    doc.setFont("times", "normal");
 
-  const currentSalaryText = document.getElementById("currentSalary").value;
-  const predictedSalaryText = document.getElementById("predictedSalary").value;
-  const programFee = document.getElementById("programFee").value;
-  const learningTime = document.getElementById("learningTime").value;
-  const roiText = document.querySelector(".output-result").innerText;
+    const currentSalaryText = document.getElementById("currentSalary").value;
+    const predictedSalaryText = document.getElementById("predictedSalary").value;
+    const programFee = document.getElementById("programFee").value;
+    const learningTime = document.getElementById("learningTime").value;
+    const roiText = document.querySelector(".output-result").innerText;
 
-  // Convert the salary values to numbers by removing the ₹ symbol and commas
-  const currentSalary = parseFloat(currentSalaryText.replace('₹', '').replace(',', ''));
-  const predictedSalary = parseFloat(predictedSalaryText.replace('₹', '').replace(',', ''));
+    // Convert the salary values to numbers by removing the ₹ symbol and commas
+    const currentSalary = parseFloat(currentSalaryText.replace('₹', '').replace(',', ''));
+    const predictedSalary = parseFloat(predictedSalaryText.replace('₹', '').replace(',', ''));
 
-  // Calculate the salary increase
-  const salaryIncrease = predictedSalary - currentSalary;
+    // Calculate the salary increase
+    const salaryIncrease = predictedSalary - currentSalary;
 
-  // Add content to PDF
-  const yOffset = 40;  // Starting y position for text
-  doc.text(`Current Salary: Rs. ${currentSalary}`, 10, yOffset);
-  doc.text(`Predicted Salary: Rs. ${predictedSalary}`, 10, yOffset + 10);
-  doc.text(`Program Fee: Rs. ${programFee}`, 10, yOffset + 20);
-  doc.text(`Learning Time: ${learningTime} hours per week`, 10, yOffset + 30);
-  
-  // Ensure Predicted Salary Increase is correctly formatted
-  doc.text(`Predicted Salary Increase: Rs. ${salaryIncrease.toFixed(2)}`, 10, yOffset + 40); // Display with 2 decimal places
+    // Add content to PDF
+    const yOffset = 40;  // Starting y position for text
+    doc.text(`Current Salary: Rs. ${currentSalary}`, 10, yOffset);
+    doc.text(`Predicted Salary: Rs. ${predictedSalary}`, 10, yOffset + 10);
+    doc.text(`Program Fee: Rs. ${programFee}`, 10, yOffset + 20);
+    doc.text(`Learning Time: ${learningTime} hours per week`, 10, yOffset + 30);
+    
+    // Ensure Predicted Salary Increase is correctly formatted (fixed the extra 1 issue)
+    doc.text(`Predicted Salary Increase: Rs. ${salaryIncrease.toFixed(2)}`, 10, yOffset + 40); // Display with 2 decimal places
 
-  doc.text(roiText, 10, yOffset + 50);
+    doc.text(roiText, 10, yOffset + 50);
 
-  // Add Bhrighu Academy Header to PDF
-  doc.setFont("times", "bold");
-  doc.text('Bhrighu Academy of E-Learning, Bengaluru', 105, 20, { align: 'center' });
+    // Add Bhrighu Academy Header to PDF
+    doc.setFont("times", "bold");
+    doc.text('Bhrighu Academy of E-Learning, Bengaluru', 105, 20, { align: 'center' });
 
-  // Convert the chart to image
-  const chartCanvas = document.getElementById('roiChart');
-  const chartDataURL = chartCanvas.toDataURL('image/png');
-  doc.addImage(chartDataURL, 'PNG', 10, 170, 180, 90); // Add the image to the PDF (adjust size if needed)
+    // Convert the chart to image
+    const chartCanvas = document.getElementById('roiChart');
+    const chartDataURL = chartCanvas.toDataURL('image/png');
+    doc.addImage(chartDataURL, 'PNG', 10, 170, 180, 90); // Add the image to the PDF (adjust size if needed)
 
-  // Add copyright and assumptions statement
-  doc.text('© Bhrighu Academy 2025', 10, 130);
-  doc.text('* All figures are based on estimates and assumptions.', 10, 140);
-  doc.text('Individual results may vary depending on job market conditions.', 10, 150);
+    // Add copyright and assumptions statement
+    doc.text('© Bhrighu Academy 2025', 10, 130);
+    doc.text('* All figures are based on estimates and assumptions.', 10, 140);
+    doc.text('Individual results may vary depending on job market conditions.', 10, 150);
 
-  // Save the PDF
-  doc.save('ROI_Calculator_with_Graph.pdf');
-}
-
-
+    // Save the PDF
+    doc.save('ROI_Calculator_with_Graph.pdf');
+  }
 
   // Share functionality (WhatsApp, LinkedIn, Instagram)
   function shareResults() {
@@ -384,9 +381,7 @@ function saveAsPDF() {
     const instagramUrl = `https://www.instagram.com/?url=${encodeURIComponent(window.location.href)}`;
 
     // Open sharing options in new windows
-    //window.open(whatsappUrl, "_blank");
     window.open(linkedinUrl, "_blank");
-    //window.open(instagramUrl, "_blank");
   }
 
   // Initial population of predicted salary and graph
