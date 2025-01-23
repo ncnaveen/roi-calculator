@@ -133,7 +133,7 @@
   <!-- Input Fields -->
   <div class="form-group">
     <label for="currentSalary">Current Salary (CTC) (Select Salary)</label>
-    <select id="currentSalary" onchange="calculateROI()">
+    <select id="currentSalary">
       <option value="50000">₹50,000</option>
       <option value="100000">₹100,000</option>
       <option value="150000">₹150,000</option>
@@ -143,7 +143,7 @@
 
   <div class="form-group">
     <label for="jobRole">Choose Your Job Role</label>
-    <select id="jobRole" onchange="updateSalaryPrediction(); calculateROI();">
+    <select id="jobRole">
       <option value="Data Scientist">Data Scientist</option>
       <option value="Data Analyst">Data Analyst</option>
       <option value="Machine Learning Engineer">Machine Learning Engineer</option>
@@ -164,7 +164,7 @@
 
   <div class="form-group">
     <label for="learningTime">Learning Time per Week</label>
-    <input type="range" id="learningTime" class="slider" min="6" max="24" step="6" value="12" onchange="updateLearningTime(); calculateROI();">
+    <input type="range" id="learningTime" class="slider" min="6" max="24" step="6" value="12">
     <div id="learningTimeLabel">12 hours per week</div>
   </div>
 
@@ -232,6 +232,9 @@
     document.getElementById("learningTimeLabel").innerText = `${learningTime} hours per week`;
   }
 
+  // Initialize the chart variable
+  let roiChart;
+
   // ROI calculation function
   function calculateROI() {
     const currentSalary = parseFloat(document.getElementById("currentSalary").value);
@@ -249,9 +252,16 @@
       <p><strong>Predicted ROI:</strong> ${roi}%</p>
     `;
 
-    // Show graphical representation using Chart.js
+    // Create or update the graph (using Chart.js)
     const ctx = document.getElementById('roiChart').getContext('2d');
-    const roiChart = new Chart(ctx, {
+    
+    // Destroy previous chart instance if exists to prevent duplication
+    if (roiChart) {
+      roiChart.destroy();
+    }
+
+    // Create new chart with updated data
+    roiChart = new Chart(ctx, {
       type: 'bar',
       data: {
         labels: ['Salary Increase', 'Program Fee', 'ROI'],
@@ -288,6 +298,21 @@
   function shareResults() {
     alert("Sharing functionality not implemented yet.");
   }
+
+  // Attach event listeners to inputs to trigger recalculation automatically
+  document.getElementById("currentSalary").addEventListener("change", calculateROI);
+  document.getElementById("jobRole").addEventListener("change", function() {
+    updateSalaryPrediction();
+    calculateROI();
+  });
+  document.getElementById("learningTime").addEventListener("input", function() {
+    updateLearningTime();
+    calculateROI();
+  });
+
+  // Initial population of predicted salary on page load
+  updateSalaryPrediction();
+  calculateROI();
 </script>
 
 </body>
