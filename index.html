@@ -20,6 +20,8 @@
     .logo {
       margin-top: 20px;
       margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
     }
 
     .logo img {
@@ -268,32 +270,41 @@
   // Function to update the graph with new ROI
   function updateGraph(roi) {
     const ctx = document.getElementById('roiChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Previous ROI', 'New ROI'],
-        datasets: [{
-          label: 'ROI',
-          data: [10, parseFloat(roi)],
-          backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)'],
-          borderColor: ['rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)'],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
+    const chart = Chart.getChart("roiChart"); // Get the existing chart instance
+    if (chart) {
+      chart.data.datasets[0].data = [10, parseFloat(roi)]; // Update data dynamically
+      chart.update(); // Re-render the chart
+    } else {
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Previous ROI', 'New ROI'],
+          datasets: [{
+            label: 'ROI',
+            data: [10, parseFloat(roi)],
+            backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)'],
+            borderColor: ['rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)'],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
           }
         }
-      }
-    });
+      });
+    }
   }
 
-  // Save as PDF functionality including the graph and Bhrighu Logo
+  // Save as PDF functionality including the graph
   function saveAsPDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
+
+    // Set font to Times New Roman
+    doc.setFont("times", "normal");
 
     const currentSalary = document.getElementById("currentSalary").value;
     const predictedSalary = document.getElementById("predictedSalary").value;
@@ -301,19 +312,19 @@
     const learningTime = document.getElementById("learningTime").value;
     const roiText = document.querySelector(".output-result").innerText;
 
-    // Add Bhrighu logo to PDF
-    doc.addImage('Bhrighu.png', 'PNG', 10, 10, 40, 40); // Adjust image size and position as needed
-
     // Add content to PDF
-    doc.text(`Current Salary: ₹${currentSalary}`, 10, 60);
-    doc.text(`Predicted Salary: ${predictedSalary}`, 10, 70);
-    doc.text(`Program Fee: ₹${programFee}`, 10, 80);
-    doc.text(`Learning Time: ${learningTime} hours per week`, 10, 90);
-    doc.text(roiText, 10, 100);
+    doc.text(`Current Salary: ₹${currentSalary}`, 10, 10);
+    doc.text(`Predicted Salary: ${predictedSalary}`, 10, 20);
+    doc.text(`Program Fee: ₹${programFee}`, 10, 30);
+    doc.text(`Learning Time: ${learningTime} hours per week`, 10, 40);
+    doc.text(roiText, 10, 50);
 
-    // Add copyright and assumptions
-    doc.text(`© Bhrighu Academy 2025`, 10, 130);
-    doc.text(`* All figures are based on estimates and assumptions. Individual results may vary depending on job market conditions.`, 10, 140);
+    // Add Bhrighu logo to PDF
+    doc.addImage('Bhrighu.png', 'PNG', 105, 10, 40, 40, 'center');
+
+    // Add copyright and assumptions statement
+    doc.text('© Bhrighu Academy 2025', 10, 130);
+    doc.text('* All figures are based on estimates and assumptions. Individual results may vary depending on job market conditions.', 10, 140);
 
     // Convert the chart to image
     const chartCanvas = document.getElementById('roiChart');
