@@ -328,15 +328,16 @@
     doc.setFont("times", "bold");
     doc.text('Bhrighu Academy of E-Learning, Bengaluru', 105, 20, { align: 'center' });
 
-    // Add copyright and assumptions statement
-    doc.text('© Bhrighu Academy 2025', 10, 130);
-    doc.text('* All figures are based on estimates and assumptions. Individual results may vary depending on job market conditions.', 10, 140);
-
-    // Convert the chart to image
+   // Convert the chart to image
     const chartCanvas = document.getElementById('roiChart');
     const chartDataURL = chartCanvas.toDataURL('image/png');
     doc.addImage(chartDataURL, 'PNG', 10, 150, 180, 90); // Add the image to the PDF (adjust size if needed)
-
+ // 
+    // Add copyright and assumptions statement
+    doc.text('© Bhrighu Academy 2025', 10, 130);
+    doc.text('* All figures are based on estimates and assumptions.',10,130);
+    doc.text('Individual results may vary depending on job market conditions.', 10, 130);
+    
     // Save the PDF
     doc.save('ROI_Calculator_with_Graph.pdf');
   }
