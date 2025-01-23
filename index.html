@@ -109,7 +109,13 @@
     }
 
     .roi-container {
-      display: none;
+      display: block;
+    }
+
+    canvas {
+      width: 100%;
+      max-width: 500px;
+      margin: 20px auto;
     }
   </style>
 </head>
@@ -118,15 +124,6 @@
 <!-- Bhrighu Logo Section -->
 <div class="logo">
   <img src="Bhrighu.png" alt="Bhrighu Academy Logo">
-</div>
-
-<!-- Main Website Content -->
-<div class="main-content">
-  <h1 style="font-style: italic; text-align: center; color: #007bff;">Welcome to Bhrighu Academy</h1>
-  <p style="text-align: center;">Your Learning, Your Returns | See the Value of Skilling </p>
-  <div style="text-align: center;">
-    <a href="#" id="showRoiLink" style="color: #007bff; font-size: 18px; text-decoration: none;">Click Here to Know More</a>
-  </div>
 </div>
 
 <!-- ROI Calculator Section -->
@@ -162,7 +159,7 @@
 
   <div class="form-group">
     <label for="programFee">Program Fee (INR)</label>
-    <input type="number" id="programFee" value="20000" disabled />
+    <input type="number" id="programFee" value="50000" disabled />
   </div>
 
   <div class="form-group">
@@ -189,62 +186,36 @@
     </div>
   </div>
 
+  <canvas id="roiChart"></canvas>
+
   <p class="note">
     * All figures are based on estimates and assumptions. Individual results may vary depending on job market conditions.
   </p>
 
   <div class="save-share">
-    <button class="btn">Save as PDF</button>
-    <button class="btn">Share</button>
+    <button class="btn" onclick="saveAsPDF()">Save as PDF</button>
+    <button class="btn" onclick="shareResults()">Share</button>
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  // Handle click event on the link to show ROI calculator
-  document.getElementById("showRoiLink").addEventListener("click", function(event) {
-    event.preventDefault(); // Prevent the default action of the link
-    
-    // Hide the main content and show the ROI calculator content
-    document.querySelector(".main-content").style.display = "none";
-    document.querySelector(".roi-container").style.display = "block";
-    
-    // Change the URL without reloading the page
-    history.pushState(null, "", "/bhrighuroi");
-  });
-
-  // Handle browser back button
-  window.onpopstate = function(event) {
-    if (window.location.pathname === "/bhrighuroi") {
-      document.querySelector(".main-content").style.display = "none";
-      document.querySelector(".roi-container").style.display = "block";
-    } else {
-      document.querySelector(".main-content").style.display = "block";
-      document.querySelector(".roi-container").style.display = "none";
-    }
-  };
-
-  // On page load, check the current URL and show/hide content accordingly
-  if (window.location.pathname === "/bhrighuroi") {
-    document.querySelector(".main-content").style.display = "none";
-    document.querySelector(".roi-container").style.display = "block";
-  }
-
   // Update predicted salary based on selected job role
   function updateSalaryPrediction() {
     const jobRole = document.getElementById("jobRole").value;
     let predictedSalary = 0;
     switch (jobRole) {
       case "Data Scientist":
-        predictedSalary = 100000;
-        break;
-      case "Data Analyst":
-        predictedSalary = 80000;
-        break;
-      case "Machine Learning Engineer":
         predictedSalary = 120000;
         break;
+      case "Data Analyst":
+        predictedSalary = 90000;
+        break;
+      case "Machine Learning Engineer":
+        predictedSalary = 140000;
+        break;
       case "Business Intelligence Analyst":
-        predictedSalary = 95000;
+        predictedSalary = 100000;
         break;
       case "Data Engineer":
         predictedSalary = 110000;
@@ -278,10 +249,44 @@
       <p><strong>Predicted ROI:</strong> ${roi}%</p>
     `;
 
+    // Show graphical representation using Chart.js
+    const ctx = document.getElementById('roiChart').getContext('2d');
+    const roiChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Salary Increase', 'Program Fee', 'ROI'],
+        datasets: [{
+          label: 'ROI Calculation',
+          data: [salaryIncrease, programFee, roi],
+          backgroundColor: ['#28a745', '#007bff', '#ffcc00'],
+          borderColor: ['#28a745', '#007bff', '#ffcc00'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
     // Show prompt for more ROI with increased learning time
     if (learningTime === 24) {
       alert("Investing 24 hours per week will significantly boost your ROI!");
     }
+  }
+
+  // Placeholder function for saving as PDF (implement as needed)
+  function saveAsPDF() {
+    alert("Save as PDF functionality is not implemented yet.");
+  }
+
+  // Placeholder function for sharing (implement as needed)
+  function shareResults() {
+    alert("Share functionality is not implemented yet.");
   }
 </script>
 
