@@ -319,17 +319,18 @@ function saveAsPDF() {
   // Set font to Times New Roman (simulated with available font)
   doc.setFont("times", "normal");
 
-  const currentSalary = document.getElementById("currentSalary").value;
+  const currentSalaryText = document.getElementById("currentSalary").value;
   const predictedSalaryText = document.getElementById("predictedSalary").value;
   const programFee = document.getElementById("programFee").value;
   const learningTime = document.getElementById("learningTime").value;
   const roiText = document.querySelector(".output-result").innerText;
 
-  // Remove the ₹ symbol from predictedSalaryText and convert it to a number
+  // Convert the salary values to numbers by removing the ₹ symbol and commas
+  const currentSalary = parseFloat(currentSalaryText.replace('₹', '').replace(',', ''));
   const predictedSalary = parseFloat(predictedSalaryText.replace('₹', '').replace(',', ''));
 
   // Calculate the salary increase
-  const salaryIncrease = predictedSalary - parseFloat(currentSalary);
+  const salaryIncrease = predictedSalary - currentSalary;
 
   // Add content to PDF
   const yOffset = 40;  // Starting y position for text
@@ -337,7 +338,10 @@ function saveAsPDF() {
   doc.text(`Predicted Salary: Rs. ${predictedSalary}`, 10, yOffset + 10);
   doc.text(`Program Fee: Rs. ${programFee}`, 10, yOffset + 20);
   doc.text(`Learning Time: ${learningTime} hours per week`, 10, yOffset + 30);
-  doc.text(`Predicted Salary Increase: Rs. ${salaryIncrease}`, 10, yOffset + 40); // Ensure it's formatted properly
+  
+  // Ensure Predicted Salary Increase is correctly formatted
+  doc.text(`Predicted Salary Increase: Rs. ${salaryIncrease.toFixed(2)}`, 10, yOffset + 40); // Display with 2 decimal places
+
   doc.text(roiText, 10, yOffset + 50);
 
   // Add Bhrighu Academy Header to PDF
@@ -353,7 +357,7 @@ function saveAsPDF() {
   doc.text('© Bhrighu Academy 2025', 10, 130);
   doc.text('* All figures are based on estimates and assumptions.', 10, 140);
   doc.text('Individual results may vary depending on job market conditions.', 10, 150);
-  
+
   // Save the PDF
   doc.save('ROI_Calculator_with_Graph.pdf');
 }
