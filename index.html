@@ -291,12 +291,32 @@
       alert("Investing 24 hours per week will significantly boost your ROI!");
     }
   }
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-  // Placeholder function for saving as PDF (implement as needed)
+  <script>
+  // Save as PDF functionality
   function saveAsPDF() {
-    alert("Save as PDF functionality not implemented yet.");
-  }
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
 
+    // Get the content of the ROI calculator section
+    const roiContainer = document.querySelector('.roi-container');
+    
+    // You can use HTML2Canvas to capture an HTML element as an image if needed
+    // Here we capture the full content and directly add to PDF
+    doc.html(roiContainer, {
+      callback: function (doc) {
+        // Save the generated PDF with the name "ROI_Calculator.pdf"
+        doc.save("ROI_Calculator.pdf");
+      },
+      margin: [10, 10, 10, 10],
+      x: 10,
+      y: 10
+    });
+  }
+</script>
+ 
   // Placeholder function for sharing (implement as needed)
   function shareResults() {
     alert("Sharing functionality not implemented yet.");
