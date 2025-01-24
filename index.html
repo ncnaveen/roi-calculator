@@ -136,6 +136,7 @@
       width: 48%;
     }
 
+    /* Flex container for all form fields (inputs and outputs) */
     .form-container {
       display: flex;
       flex-wrap: wrap;
@@ -143,10 +144,12 @@
       justify-content: space-between;
     }
 
+    /* Input fields take up 100% width of the container, left side alignment */
     .form-container .form-group {
-      width: calc(50% - 10px); /* Ensure two fields are side by side */
+      width: 100%; /* Ensure inputs take full width */
     }
 
+    /* Output container should have consistent width and layout */
     .output-container {
       display: flex;
       flex-wrap: wrap;
@@ -154,8 +157,9 @@
       justify-content: space-between;
     }
 
+    /* Output fields have same width as input fields */
     .output-container .form-group {
-      width: calc(50% - 10px); /* Ensure output fields align similarly */
+      width: 100%;
     }
 
     @media (max-width: 768px) {
@@ -201,7 +205,7 @@
     </div>
   </div>
 
-  <!-- Output Fields -->
+  <!-- Output Fields (Predicted Salary and Program Fee) -->
   <div class="output-container">
     <div class="form-group">
       <label for="predictedSalary">Predicted Salary for Role (INR)</label>
