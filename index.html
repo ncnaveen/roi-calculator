@@ -136,6 +136,22 @@
       width: 48%;
     }
 
+    .form-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: space-between;
+    }
+
+    .form-container .form-group {
+      width: calc(50% - 10px); /* Ensure two fields are side by side */
+    }
+
+    @media (max-width: 768px) {
+      .form-container .form-group {
+        width: 100%; /* Stack fields on smaller screens */
+      }
+    }
   </style>
 </head>
 <body>
@@ -150,41 +166,43 @@
   <h1>Your Learning, Your Returns</h1>
 
   <!-- Input Fields -->
-  <div class="form-group">
-    <label for="currentSalary">Current Salary (CTC) (Select Salary)</label>
-    <select id="currentSalary" onchange="updateValues()">
-      <option value="50000">₹50,000</option>
-      <option value="100000">₹100,000</option>
-      <option value="150000">₹150,000</option>
-      <option value="200000">₹200,000</option>
-    </select>
-  </div>
+  <div class="form-container">
+    <div class="form-group">
+      <label for="currentSalary">Current Salary (CTC) (Select Salary)</label>
+      <select id="currentSalary" onchange="updateValues()">
+        <option value="50000">₹50,000</option>
+        <option value="100000">₹100,000</option>
+        <option value="150000">₹150,000</option>
+        <option value="200000">₹200,000</option>
+      </select>
+    </div>
 
-  <div class="form-group">
-    <label for="jobRole">Choose Your Job Role</label>
-    <select id="jobRole" onchange="updateValues()">
-      <option value="Data Scientist">Data Scientist</option>
-      <option value="Data Analyst">Data Analyst</option>
-      <option value="Machine Learning Engineer">Machine Learning Engineer</option>
-      <option value="Business Intelligence Analyst">Business Intelligence Analyst</option>
-      <option value="Data Engineer">Data Engineer</option>
-    </select>
-  </div>
+    <div class="form-group">
+      <label for="jobRole">Choose Your Job Role</label>
+      <select id="jobRole" onchange="updateValues()">
+        <option value="Data Scientist">Data Scientist</option>
+        <option value="Data Analyst">Data Analyst</option>
+        <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+        <option value="Business Intelligence Analyst">Business Intelligence Analyst</option>
+        <option value="Data Engineer">Data Engineer</option>
+      </select>
+    </div>
 
-  <div class="form-group">
-    <label for="predictedSalary">Predicted Salary for Role (INR)</label>
-    <input type="text" id="predictedSalary" disabled />
-  </div>
+    <div class="form-group">
+      <label for="predictedSalary">Predicted Salary for Role (INR)</label>
+      <input type="text" id="predictedSalary" disabled />
+    </div>
 
-  <div class="form-group">
-    <label for="programFee">Program Fee (INR)</label>
-    <input type="number" id="programFee" value="50000" disabled />
-  </div>
+    <div class="form-group">
+      <label for="programFee">Program Fee (INR)</label>
+      <input type="number" id="programFee" value="50000" disabled />
+    </div>
 
-  <div class="form-group">
-    <label for="learningTime">Learning Time per Week</label>
-    <input type="range" id="learningTime" class="slider" min="6" max="24" step="6" value="12" onchange="updateLearningTime()">
-    <div id="learningTimeLabel">12 hours per week</div>
+    <div class="form-group">
+      <label for="learningTime">Learning Time per Week</label>
+      <input type="range" id="learningTime" class="slider" min="6" max="24" step="6" value="12" onchange="updateLearningTime()">
+      <div id="learningTimeLabel">12 hours per week</div>
+    </div>
   </div>
 
   <button class="btn" onclick="calculateROI()">Calculate ROI</button>
