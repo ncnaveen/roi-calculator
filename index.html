@@ -147,8 +147,20 @@
       width: calc(50% - 10px); /* Ensure two fields are side by side */
     }
 
+    .output-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: space-between;
+    }
+
+    .output-container .form-group {
+      width: calc(50% - 10px); /* Ensure output fields align similarly */
+    }
+
     @media (max-width: 768px) {
-      .form-container .form-group {
+      .form-container .form-group,
+      .output-container .form-group {
         width: 100%; /* Stack fields on smaller screens */
       }
     }
@@ -187,7 +199,10 @@
         <option value="Data Engineer">Data Engineer</option>
       </select>
     </div>
+  </div>
 
+  <!-- Output Fields -->
+  <div class="output-container">
     <div class="form-group">
       <label for="predictedSalary">Predicted Salary for Role (INR)</label>
       <input type="text" id="predictedSalary" disabled />
@@ -197,12 +212,13 @@
       <label for="programFee">Program Fee (INR)</label>
       <input type="number" id="programFee" value="50000" disabled />
     </div>
+  </div>
 
-    <div class="form-group">
-      <label for="learningTime">Learning Time per Week</label>
-      <input type="range" id="learningTime" class="slider" min="6" max="24" step="6" value="12" onchange="updateLearningTime()">
-      <div id="learningTimeLabel">12 hours per week</div>
-    </div>
+  <!-- Learning Time -->
+  <div class="form-group">
+    <label for="learningTime">Learning Time per Week</label>
+    <input type="range" id="learningTime" class="slider" min="6" max="24" step="6" value="12" onchange="updateLearningTime()">
+    <div id="learningTimeLabel">12 hours per week</div>
   </div>
 
   <button class="btn" onclick="calculateROI()">Calculate ROI</button>
