@@ -193,17 +193,19 @@
         <option value="100000">₹100,000</option>
         <option value="150000">₹150,000</option>
         <option value="200000">₹200,000</option>
+        <option value="250000">₹250,000</option>
+        <option value="300000">₹300,000</option>
       </select>
     </div>
 
     <div class="form-group">
       <label for="jobRole">Choose Your Job Role</label>
       <select id="jobRole" onchange="updateValues()">
-        <option value="Data Scientist">Data Scientist</option>
-        <option value="Data Analyst">Data Analyst</option>
-        <option value="Machine Learning Engineer">Machine Learning Engineer</option>
-        <option value="Business Intelligence Analyst">Business Intelligence Analyst</option>
-        <option value="Data Engineer">Data Engineer</option>
+        <option value="Data Analyst">Data Analyst - A key role for interpreting and analyzing data to provide insights for decision-making.</option>
+        <option value="Business Intelligence Analyst">Business Intelligence Analyst - Focuses on analyzing complex data to help organizations make strategic decisions.</option>
+        <option value="Data Engineer">Data Engineer - Responsible for building and maintaining the infrastructure that allows large-scale data processing.</option>
+        <option value="Machine Learning Engineer">Machine Learning Engineer - Works with algorithms and models to create automated systems that learn from data.</option>
+        <option value="Data Scientist">Data Scientist - Combines programming, statistics, and machine learning to extract meaningful insights and predictions from data.</option>
       </select>
     </div>
   </div>
@@ -211,7 +213,7 @@
   <!-- Output Fields (Predicted Salary and Program Fee) -->
   <div class="output-container">
     <div class="form-group">
-      <label for="predictedSalary">Predicted Salary for Role (INR)</label>
+      <label for="predictedSalary">Average Salary for Role (INR)</label>
       <input type="text" id="predictedSalary" disabled />
     </div>
 
@@ -224,8 +226,12 @@
   <!-- Learning Time -->
   <div class="form-group">
     <label for="learningTime">Learning Time per Week</label>
-    <input type="range" id="learningTime" class="slider" min="6" max="24" step="6" value="12" onchange="updateLearningTime()">
-    <div id="learningTimeLabel">12 hours per week</div>
+    <select id="learningTime" onchange="updateLearningTime()">
+      <option value="7">7 hours per week</option>
+      <option value="14">14 hours per week</option>
+      <option value="21">21 hours per week</option>
+      <option value="28">28 hours per week</option>
+    </select>
   </div>
 
   <button class="btn" onclick="calculateROI()">Calculate ROI</button>
@@ -234,13 +240,6 @@
   <div class="output" id="output">
     <div class="money-bag">💰</div>
     <p><strong>Investing additional time can boost your ROI!</strong></p>
-    <div class="comparison-output">
-      <div>
-        <p><strong>Previous ROI:</strong> 10%</p>
-        <p><strong>New ROI:</strong> 15%</p>
-      </div>
-      <div class="growth-graph">📈</div>
-    </div>
     <div class="output-result">
       <!-- Results will appear here -->
     </div>
@@ -266,20 +265,20 @@
     const jobRole = document.getElementById("jobRole").value;
     let predictedSalary = 0;
     switch (jobRole) {
-      case "Data Scientist":
-        predictedSalary = 1000000;
-        break;
       case "Data Analyst":
         predictedSalary = 700000;
-        break;
-      case "Machine Learning Engineer":
-        predictedSalary = 900000;
         break;
       case "Business Intelligence Analyst":
         predictedSalary = 800000;
         break;
       case "Data Engineer":
-        predictedSalary = 1000000;
+        predictedSalary = 900000;
+        break;
+      case "Machine Learning Engineer":
+        predictedSalary = 1200000;
+        break;
+      case "Data Scientist":
+        predictedSalary = 1500000;
         break;
       default:
         predictedSalary = 200000;
@@ -290,7 +289,6 @@
   // Function to update learning time label
   function updateLearningTime() {
     const learningTime = document.getElementById("learningTime").value;
-    document.getElementById("learningTimeLabel").innerText = `${learningTime} hours per week`;
     calculateROI();
   }
 
@@ -300,7 +298,7 @@
     calculateROI();
   }
 
-  // Function to calculate ROI
+  // Function to calculate ROI, Breakeven Period, and Salary Increase
   function calculateROI() {
     const currentSalary = parseFloat(document.getElementById("currentSalary").value);
     const predictedSalaryText = document.getElementById("predictedSalary").value;
@@ -319,14 +317,14 @@
     const salaryIncrease = predictedSalary - currentSalary;
     let roi = ((salaryIncrease / programFee) * 100).toFixed(2);
 
-    // Apply a multiplier to ROI based on learning time
-    const roiMultiplier = 1 + (learningTime - 12) * 0.02; // 2% increase per additional hour above 12 hours/week
-    roi = (roi * roiMultiplier).toFixed(2);
+    // Breakeven Period (Program Fee / Salary Increase per month)
+    const breakevenPeriod = (programFee / (salaryIncrease / 12)).toFixed(2);
 
     // Display the results
-    document.querySelector(".output-result").innerHTML = ` 
-      <p><strong>Predicted Salary Increase:</strong> ₹${salaryIncrease}</p>
-      <p><strong>Predicted ROI:</strong> ${roi}%</p>
+    document.querySelector(".output-result").innerHTML = `
+      <p><strong>Average Salary Increase:</strong> ₹${salaryIncrease}</p>
+      <p><strong>Breakeven Period:</strong> ${breakevenPeriod} months</p>
+      <p><strong>Return on Investment (ROI):</strong> ${roi}%</p>
     `;
 
     // Update the graph
@@ -336,7 +334,6 @@
   // Function to update the graph with new ROI
   function updateGraph(roi) {
     const ctx = document.getElementById('roiChart').getContext('2d');
-    const previousROI = 10; // You can set this as a fixed value or dynamic depending on your requirement
     const newROI = parseFloat(roi);
 
     // Destroy previous chart instance to avoid overlap
@@ -347,12 +344,12 @@
     window.chartInstance = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['Previous ROI', 'New ROI'],
+        labels: ['ROI'],
         datasets: [{
           label: 'ROI',
-          data: [previousROI, newROI],
-          backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(54, 162, 235, 0.2)'],
-          borderColor: ['rgba(75, 192, 192, 1)', 'rgba(54, 162, 235, 1)'],
+          data: [newROI],
+          backgroundColor: ['rgba(75, 192, 192, 0.2)'],
+          borderColor: ['rgba(75, 192, 192, 1)'],
           borderWidth: 1
         }]
       },
@@ -399,52 +396,14 @@
 
     doc.text(roiText, 10, yOffset + 50);
 
-    // Add Bhrighu Academy Header to PDF
-    doc.setFont("times", "bold");
-    doc.text('Bhrighu Academy of E-Learning, Bengaluru', 105, 20, { align: 'center' });
-
-    // Convert the chart to image
-    const chartCanvas = document.getElementById('roiChart');
-    const chartDataURL = chartCanvas.toDataURL('image/png');
-    doc.addImage(chartDataURL, 'PNG', 10, 170, 180, 90); // Add the image to the PDF (adjust size if needed)
-
-    // Add copyright and assumptions statement
-    doc.text('© Bhrighu Academy 2025', 10, 130);
-    doc.text('* All figures are based on estimates and assumptions.', 10, 140);
-    doc.text('Individual results may vary depending on job market conditions.', 10, 150);
-
-    // Save the PDF
-    doc.save('ROI_Calculator_with_Graph.pdf');
+    // Save the PDF document
+    doc.save('ROI_Report.pdf');
   }
 
-  // Share functionality (WhatsApp, LinkedIn, Instagram)
+  // Share functionality (just a placeholder for now)
   function shareResults() {
-    const currentSalary = document.getElementById("currentSalary").value;
-    const predictedSalary = document.getElementById("predictedSalary").value;
-    const programFee = document.getElementById("programFee").value;
-    const learningTime = document.getElementById("learningTime").value;
-    const roiText = document.querySelector(".output-result").innerText;
-
-    const shareText = `
-      Current Salary: ₹${currentSalary}
-      Predicted Salary: ₹${predictedSalary}
-      Program Fee: ₹${programFee}
-      Learning Time: ${learningTime} hours per week
-      ${roiText}
-    `;
-
-    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
-    const linkedinUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(window.location.href)}&title=Your Learning, Your Returns&summary=${encodeURIComponent(shareText)}`;
-    const instagramUrl = `https://www.instagram.com/?url=${encodeURIComponent(window.location.href)}`;
-
-    // Open sharing options in new windows
-    window.open(linkedinUrl, "_blank");
+    alert("Sharing feature coming soon!");
   }
-
-  // Initial population of predicted salary and graph
-  updateSalaryPrediction();
-  calculateROI();
 </script>
-
 </body>
 </html>
